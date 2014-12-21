@@ -98,18 +98,15 @@ stdMeanTest <- totalTest[,c(1:4, grep("mean|std", colnames(totalTest))), with=FA
 ## Create a tidy data set that averages each variable by Subject and Activity
 ############################################################################################################
 
-#Copy stdMeanTest to a standard data frame
-testdf <- data.frame(stdMeanTest)
-
-# get rid of extraneous columns
-testdf$testId <- NULL
-testdf$ActivityId <- NULL
 
 #load the dplyr library
 library(dplyr)
 
 #create a data frame table
-testDfTbl <- tbl_df(testdf)
+testDfTbl <- tbl_df(stdMeanTest)
+
+# get rid of extraneous columns
+testDfTbl <- select(testDfTbl, -c(1,3))
 
 summBySubjActivity <- testDfTbl %>% group_by(Subject, ActivityName) %>% summarise_each(funs(mean)) 
 
