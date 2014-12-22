@@ -1,4 +1,7 @@
 
+###################################################################################
+## Read the features table
+###################################################################################
 library(data.table)
 setwd("C:\\Users\\hclark\\datasciencecoursera\\GettingAndCleaningDataProject\\UCI HAR Dataset")
 
@@ -7,8 +10,9 @@ setnames(dtFeatures, c("FeatureId", "FeatureName"))
 dtFeatures$FeatureName <- make.unique(dtFeatures$FeatureName)
                          
 
-
-## Get Activity List
+###################################################################################
+## Read the Activity List
+###################################################################################
 dtActivityLabels <- data.table(read.csv("activity_labels.txt",sep="", header=FALSE, stringsAsFactors=TRUE))
 setnames(dtActivityLabels, c("ActivityId", "ActivityName"))
 setkey(dtActivityLabels, ActivityId)
@@ -78,11 +82,17 @@ setkey(dtActivityTrain, testId)
 resultTrain <- merge(dtTrainSubject, dtActivityTrain)
 resultTrain <- merge(resultTrain, dtTrain)
 
+############################################################################################################
+## Step 1
+##
+## Use rbind to merge the test and training data sets having bound a testId and Activity column to each test
+############################################################################################################
+
 totalTest <- rbind(resultTrain, resultTest)
 
 
 ############################################################################################################
-## STEP 4
+## STEP 2
 ##
 ## Select just those columns containing a mean or std deviation, 
 ##
